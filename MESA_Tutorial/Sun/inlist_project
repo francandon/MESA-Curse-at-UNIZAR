@@ -11,8 +11,8 @@
     create_pre_main_sequence_model = .true.
 
   ! save a model at the end of the run
-    save_model_when_terminate = .true.
-    save_model_filename = 'SUN.mod'
+    save_model_when_terminate = .false.
+    save_model_filename = '15M_at_TAMS.mod'
 
   ! display on-screen plots
     pgstar_flag = .true.
@@ -40,11 +40,18 @@
   ! see star/defaults/controls.defaults
 
   ! starting specifications
-    initial_mass = 1 ! in Msun units
+    initial_mass = 15 ! in Msun units
     initial_z = 0.02
 
   ! when to stop
-  max_age = 4.5d9
+
+    ! stop when the star nears ZAMS (Lnuc/L > 0.99)
+    Lnuc_div_L_zams_limit = 0.99d0
+    stop_near_zams = .true.
+
+    ! stop when the center mass fraction of h1 drops below this limit
+    xa_central_lower_limit_species(1) = 'h1'
+    xa_central_lower_limit(1) = 1d-3
 
   ! wind
 
@@ -64,8 +71,8 @@
 
   ! solver
      ! options for energy conservation (see MESA V, Section 3)
-     energy_eqn_option = 'eps_grav'
-     use_gold_tolerances = .false.
+     energy_eqn_option = 'dedt'
+     use_gold_tolerances = .true.
 
   ! output
 
